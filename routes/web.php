@@ -58,3 +58,8 @@ Route::get('/', function () {
         'greeting' => '안녕하세요?',
     ]);
 });
+
+Route::get('/fruit', function () {
+    $items = ['apple', 'banana', 'tomato'];
+    return view('fruit', ['items' => $items]);
+});
