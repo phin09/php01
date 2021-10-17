@@ -63,3 +63,7 @@ Route::get('/fruit', function () {
     $items = ['apple', 'banana', 'tomato'];
     return view('fruit', ['items' => $items]);
 });
+
+Route::get('/template', function () {
+    return view('child01');
+});
