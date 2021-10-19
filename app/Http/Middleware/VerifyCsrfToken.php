@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
      * @var array
      */
     protected $except = [
-        //
+        // csrf 보호에서 제외할 url 패턴
+//        'articles',
+//        'articles/*'
     ];
 }

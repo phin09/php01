@@ -11,6 +11,10 @@
 |
 */
 
+// 라우트 목록을 확인하는 커맨드
+// php artisan route:list
+
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -67,3 +71,11 @@ Route::get('/fruit', function () {
 Route::get('/template', function () {
     return view('child01');
 });
+
+// 라우트의 처리 로직을 WelcomeController의 index method에 위임
+Route::get('/', 'WelcomeController@index');
+
+// --resource 옵션을 준 커맨드로 만들어서 기본 제공되는 uri와 컨트롤러 method가 있다. 라우트 목록에서 확인 가능.
+// 리소스를 나타내는 url 경로는 복수형을 권장.
+// 컨트롤러 이름은 복수형을 사용하는 게 관례.
+Route::resource('articles', 'ArticlesController');
