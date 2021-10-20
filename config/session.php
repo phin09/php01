@@ -122,6 +122,7 @@ return [
     |
     */
 
+    // 쿠키에 사용할 키를 변경할 수 있다.
     'cookie' => env(
         'SESSION_COOKIE',
         str_slug(env('APP_NAME', 'laravel'), '_').'_session'

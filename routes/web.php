@@ -79,3 +79,48 @@ Route::get('/', 'WelcomeController@index');
 // 리소스를 나타내는 url 경로는 복수형을 권장.
 // 컨트롤러 이름은 복수형을 사용하는 게 관례.
 Route::resource('articles', 'ArticlesController');
+
+// 사용자 인증
+// 사용자 인증을 아래처럼 구현하는 대신 php artisan make:auth 커맨드로 라라벨 내장 사용자 인증을 사용할 수 있다.
+// 이 때 .env에서 MAIL_DRIVER=log로 변경한 다음 storage/logs/laravel.log 파일에서 비밀번호 변경 메일을 보고 비밀번호를 수정할 수 있다.
+
+// 라우트만으로 구현한 사용자 인증
+Route::get('auth/login', function () {
+    $credentials = [
+        'email' => 'john@example.com',
+        'password' => 'password'
+    ];
+
+    // 아래 두 if 조건문은 같은 기능임
+    // if (! auth()->attempt($credentials)) { // auth 도우미 사용
+    if (! Auth::attempt($credentials)) { // Auth facade 사용
+        return '로그인 정보가 정확하지 않습니다.';
+    }
+
+    return redirect('protected');
+});
+
+Route::get('protected', ['middleware' => 'auth', function () {
+    // 크롬 개발자도구 source 탭에서 login_web_random#를 볼 수 있다. 로그인했을 때만 존재한다.
+    // 로그인한 사용자에 해당하는 기본 키 값이 담겨있다.
+    dump(session()->all());
+
+    // middleware를 적용하지 않았을 때 필요한, 로그인하지 않은 사용자가 가는 분기
+//    if(! auth()->check()) {
+//        return '누구세요?';
+//    }
+
+    // 로그인하지 않았을 때 auth()->user()는 null
+    return '어서오세요 ' . auth()->user()->name;
+}]);
+
+Route::get('auth/logout', function () {
+    auth()->logout();
+
+    return '또 봐요';
+});
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+
